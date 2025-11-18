@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: gestorTareas
+    env: php
+    region: frankfurt
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader && php artisan migrate --force
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_KEY
+        sync: false
+      - key: APP_DEBUG
+        value: true
+      - key: APP_ENV
+        value: production
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
