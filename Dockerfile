@@ -12,26 +12,22 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
-# 3. Activar el módulo Rewrite de Apache (necesario para las rutas de Laravel)
+# 3. Activar el módulo Rewrite y AllowOverride (FIX 404)
 RUN a2enmod rewrite
-
-# AÑADE ESTA LÍNEA CRUCIAL PARA PERMITIR .htaccess EN EL SERVIDOR
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+
 # 4. Copiar todo tu código al contenedor
 COPY . /var/www/html
 
-# 5. Instalar Composer (el gestor de paquetes)
+# 5. Instalar Composer y dependencias
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# 6. Instalar las dependencias de tu proyecto
 RUN composer install --no-dev --optimize-autoloader
 
-# 7. Dar permisos a las carpetas de almacenamiento
+# 6. Permisos y Script de Inicialización
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# 9. Comando de Inicio FINAL: Ejecutar el script
+# 7. Comando de Inicio FINAL
+# Le decimos a Docker que ejecute el script, que a su vez se encarga de iniciar Apache
 CMD ["/usr/local/bin/entrypoint.sh"]

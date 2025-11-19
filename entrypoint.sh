@@ -1,22 +1,20 @@
 #!/bin/bash
 
-# Detiene el script si algo falla (importante)
+# 1. Detiene el script si una migración o seeder falla
 set -e
 
-echo "Iniciando secuencia de arranque de Laravel..."
+echo "Iniciando secuencia de inicialización..."
 
-# 1. Limpiar Caché (Rutas y Configuración)
-php artisan route:clear
-php artisan config:clear
+# 2. Comandos de Mantenimiento y Seeding
+php artisan route:clear      # Limpia rutas
+php artisan config:clear     # Limpia configuración
+php artisan db:seed          # Crea el Usuario Dummy (Fix 23503)
+php artisan migrate --force  # Asegura la existencia de tablas
 
-# 2. Inicializar Datos (Seeding y Migraciones)
-php artisan db:seed
-php artisan migrate --force
-
-# 3. Dar permisos finales (necesario tras seeding)
+# 3. Dar permisos finales
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-echo "Inicialización de la BBDD terminada. Arrancando Apache."
+echo "Inicialización terminada. Arrancando servidor Apache..."
 
-# 4. Comando final: Iniciar el servidor Apache y mantenerlo en primer plano
+# 4. Comando de arranque principal (entrega el control al contenedor)
 exec apache2-foreground
