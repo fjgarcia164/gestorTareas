@@ -5,7 +5,7 @@ set -e
 # entrypoint.sh (Añadir debajo de set -e)
 
 # Esperar 30 segundos para que la BBDD termine de arrancar y esté accesible
-sleep 30
+sleep 120
 echo "Iniciando secuencia de inicialización..."
 
 # 2. Comandos de Mantenimiento y Seeding
