@@ -15,6 +15,9 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 # 3. Activar el módulo Rewrite de Apache (necesario para las rutas de Laravel)
 RUN a2enmod rewrite
 
+# AÑADE ESTA LÍNEA CRUCIAL PARA PERMITIR .htaccess EN EL SERVIDOR
+RUN sed -i '/<Directory \/var\/www\/html>/a AllowOverride All' /etc/apache2/apache2.conf
+
 # 4. Copiar todo tu código al contenedor
 COPY . /var/www/html
 
