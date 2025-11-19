@@ -29,5 +29,5 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # 7. Comando de Inicio FINAL
-# Le decimos a Docker que ejecute el script, que a su vez se encarga de iniciar Apache
-CMD ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["apache2-foreground"]

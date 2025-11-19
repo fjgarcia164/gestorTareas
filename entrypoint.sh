@@ -2,7 +2,10 @@
 
 # 1. Detiene el script si una migración o seeder falla
 set -e
+# entrypoint.sh (Añadir debajo de set -e)
 
+# Esperar 5 segundos para que la BBDD termine de arrancar y esté accesible
+sleep 5
 echo "Iniciando secuencia de inicialización..."
 
 # 2. Comandos de Mantenimiento y Seeding
