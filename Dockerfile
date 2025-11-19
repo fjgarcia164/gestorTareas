@@ -25,9 +25,16 @@ RUN composer install --no-dev --optimize-autoloader
 
 # 6. Permisos y Script de Inicialización
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# 7. Comando de Inicio FINAL
+# --- Comandos de Integración del Script ---
+
+# 7. Copiar el script de inicialización y darle permisos de ejecución
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# 7. Comando de Inicio FINAL
+# 8. Define el script de SETUP que se ejecuta SIEMPRE al inicio
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# 9. Comando de Inicio FINAL (Lo que ejecuta el script en el final, después de las migraciones)
 CMD ["apache2-foreground"]

@@ -20,4 +20,5 @@ chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 echo "Inicialización terminada. Arrancando servidor Apache..."
 
 # 4. Comando de arranque principal (entrega el control al contenedor)
-exec apache2-foreground
+# entrypoint.sh - ÚLTIMA LÍNEA
+exec "$@"
