@@ -30,9 +30,8 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 
-# 8. Ejecutar Migraciones y Arrancar Apache (Comando de Inicio del Contenedor)
-CMD sh -c "php artisan route:clear && php artisan config:clear && php artisan migrate --force && apache2-foreground"
-# Dockerfile (última línea)
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Este comando ejecuta el seeder (que llama al UserSeeder) ANTES de iniciar Apache.
-CMD sh -c "php artisan db:seed && php artisan migrate --force && php artisan config:cache && apache2-foreground"
+# 9. Comando de Inicio FINAL: Ejecutar el script
+CMD ["/usr/local/bin/entrypoint.sh"]
