@@ -31,5 +31,8 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 
 # 8. Ejecutar Migraciones y Arrancar Apache (Comando de Inicio del Contenedor)
-# Este comando hace: 1. Limpia rutas 2. Limpia config 3. Siembra datos (Usuario ID 1) 4. Migra 5. Arranca Apache.
-CMD sh -c "php artisan route:clear && php artisan config:clear && php artisan db:seed && php artisan migrate --force && apache2-foreground"
+CMD sh -c "php artisan route:clear && php artisan config:clear && php artisan migrate --force && apache2-foreground"
+# Dockerfile (última línea)
+
+# Este comando ejecuta el seeder (que llama al UserSeeder) ANTES de iniciar Apache.
+CMD sh -c "php artisan db:seed && php artisan migrate --force && php artisan config:cache && apache2-foreground"
