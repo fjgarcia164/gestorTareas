@@ -26,3 +26,7 @@ RUN composer install --no-dev --optimize-autoloader
 
 # 7. Dar permisos a las carpetas de almacenamiento
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+
+# 8. Ejecutar Migraciones y Arrancar Apache (Comando de Inicio del Contenedor)
+CMD sh -c "php artisan migrate --force && php artisan config:cache && apache2-foreground"
