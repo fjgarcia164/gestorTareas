@@ -27,8 +27,11 @@ COPY . /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# 6. Instalar dependencias de Frontend y Compilar (NUEVO)
-RUN npm install && npm run build
+# 6. Instalar dependencias de Frontend y Compilar
+# Forzamos la instalación de tailwindcss, postcss y autoprefixer
+RUN npm install
+RUN npm install -D tailwindcss postcss autoprefixer
+RUN npm run build
 
 # 7. Permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
