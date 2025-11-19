@@ -21,7 +21,9 @@ class Tarea extends Model
     public function subtareas() {
         return $this->hasMany(Subtarea::class);
     }
-    
+    public function comentarios() {
+        return $this->hasMany(Comentario::class);
+    }
     public function usuariosAsignados() {
         return $this->belongsToMany(User::class, 'tarea_user');
     }
