@@ -29,4 +29,4 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 
 # 8. Ejecutar Migraciones y Arrancar Apache (Comando de Inicio del Contenedor)
-CMD sh -c "php artisan migrate --force && php artisan config:cache && apache2-foreground"
+CMD sh -c "php artisan route:clear && php artisan config:clear && php artisan migrate --force && apache2-foreground"
