@@ -17,14 +17,10 @@ return new class extends Migration
         $table->text('descripcion')->nullable();
         $table->date('fecha_vencimiento')->nullable();
         
-        // Estados y Prioridad (usamos string o enum)
         $table->enum('estado', ['pendiente', 'en_progreso', 'completada'])->default('pendiente');
         $table->enum('prioridad', ['baja', 'media', 'alta'])->default('media');
         
-        // Claves Foráneas (Relaciones)
-        // Relación con Usuarios (Creador)
         $table->foreignId('creador_id')->constrained('users')->onDelete('cascade');
-        // Relación con Categorías
         $table->foreignId('categoria_id')->constrained('categorias')->onDelete('cascade');
         
         $table->timestamps();

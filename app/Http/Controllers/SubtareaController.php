@@ -24,7 +24,6 @@ class SubtareaController extends Controller
     public function update(Request $request, $id)
     {
         $subtarea = Subtarea::findOrFail($id);
-        // Cambiamos el estado al contrario del que tenga (toggle)
         $subtarea->update(['completada' => !$subtarea->completada]);
         
         return back();

@@ -46,7 +46,7 @@ class TareaController extends Controller
             'prioridad' => $request->prioridad,
             'estado' => 'pendiente',
             'categoria_id' => $request->categoria_id,
-            'creador_id' => Auth::id(), // <--- AQUÍ ESTÁ EL CAMBIO (Ya no es 1)
+            'creador_id' => Auth::id(),
         ]);
 
         return redirect()->route('tareas.index')->with('success', 'Tarea creada con éxito');
@@ -54,8 +54,7 @@ class TareaController extends Controller
 
     public function show(string $id)
     {
-        // Usamos findOrFail para dar error 404 si no existe
-        // IMPORTANTE: En una app real, aquí comprobaríamos si la tarea pertenece al usuario
+        
         $tarea = Tarea::with(['categoria', 'subtareas', 'comentarios'])->findOrFail($id);
         return view('tareas.show', compact('tarea'));
     }

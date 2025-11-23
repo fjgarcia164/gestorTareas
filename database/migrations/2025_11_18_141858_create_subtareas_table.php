@@ -16,7 +16,6 @@ return new class extends Migration
         $table->string('titulo');
         $table->boolean('completada')->default(false);
         
-        // Relación: Una subtarea pertenece a una Tarea
         $table->foreignId('tarea_id')->constrained('tareas')->onDelete('cascade');
         
         $table->timestamps();

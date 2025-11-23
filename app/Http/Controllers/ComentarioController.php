@@ -15,7 +15,7 @@ class ComentarioController extends Controller
         Comentario::create([
             'contenido' => $request->contenido,
             'tarea_id' => $tarea_id,
-            'user_id' => Auth::id(), // El usuario que escribe
+            'user_id' => Auth::id(),
         ]);
 
         return back()->with('success', 'Comentario publicado.');

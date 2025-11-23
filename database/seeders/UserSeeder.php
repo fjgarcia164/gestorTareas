@@ -8,7 +8,6 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Se crea el usuario con ID 1 que es obligatorio para tu tarea.
         User::create([
             'name' => 'Usuario Dummy',
             'email' => 'dummy@app.com',

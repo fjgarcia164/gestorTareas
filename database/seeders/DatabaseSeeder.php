@@ -12,9 +12,8 @@ class DatabaseSeeder extends Seeder
      */
 public function run(): void
     {
-        // Solo llamamos a nuestro seeder para crear el usuario necesario.
         $this->call([
-            UserSeeder::class, // <-- ESTO es lo esencial.
+            UserSeeder::class,
         ]);
     }
     

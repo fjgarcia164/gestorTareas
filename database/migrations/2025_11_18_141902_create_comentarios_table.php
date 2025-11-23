@@ -15,7 +15,6 @@ return new class extends Migration
         $table->id();
         $table->text('contenido');
         
-        // Relaciones: Pertenece a una Tarea y a un Usuario
         $table->foreignId('tarea_id')->constrained('tareas')->onDelete('cascade');
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         
