@@ -1,4 +1,3 @@
-# Usamos la imagen oficial de PHP con Apache
 FROM php:8.2-apache
 
 # 1. Instalar dependencias del sistema (Solo PHP y Postgres)

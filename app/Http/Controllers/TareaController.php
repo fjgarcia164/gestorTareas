@@ -5,20 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Tarea;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // <--- IMPORTANTE: Añadir esto
+use Illuminate\Support\Facades\Auth;
 
 class TareaController extends Controller
 {
-    /**
-     * Muestra SOLO las tareas del usuario conectado.
-     */
+    
     public function index()
     {
-        // Filtramos por creador_id = ID del usuario actual
         $tareas = Tarea::where('creador_id', Auth::id())
-                        ->with(['categoria', 'creador'])
-                        ->get();
-                        
+                       ->with('categoria')
+                       ->get();
+
         return view('tareas.index', compact('tareas'));
     }
 
@@ -28,9 +25,7 @@ class TareaController extends Controller
         return view('tareas.create', compact('categorias'));
     }
 
-    /**
-     * Guarda la tarea asignándole el ID del usuario conectado.
-     */
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -55,13 +50,20 @@ class TareaController extends Controller
     public function show(string $id)
     {
         
-        $tarea = Tarea::with(['categoria', 'subtareas', 'comentarios'])->findOrFail($id);
+        $tarea = Tarea::where('id', $id)
+                      ->where('creador_id', Auth::id())
+                      ->with(['categoria', 'subtareas', 'comentarios'])
+                      ->firstOrFail();
+
         return view('tareas.show', compact('tarea'));
     }
 
     public function edit(string $id)
     {
-        $tarea = Tarea::findOrFail($id);
+        $tarea = Tarea::where('id', $id)
+                      ->where('creador_id', Auth::id())
+                      ->firstOrFail();
+
         $categorias = Categoria::all();
         return view('tareas.edit', compact('tarea', 'categorias'));
     }
@@ -75,7 +77,9 @@ class TareaController extends Controller
             'estado' => 'required'
         ]);
 
-        $tarea = Tarea::findOrFail($id);
+        $tarea = Tarea::where('id', $id)
+                      ->where('creador_id', Auth::id())
+                      ->firstOrFail();
         
         $tarea->update([
             'titulo' => $request->titulo,
@@ -91,7 +95,10 @@ class TareaController extends Controller
 
     public function destroy(string $id)
     {
-        $tarea = Tarea::findOrFail($id);
+        $tarea = Tarea::where('id', $id)
+                      ->where('creador_id', Auth::id())
+                      ->firstOrFail();
+
         $tarea->delete();
         return redirect()->route('tareas.index')->with('success', 'Tarea eliminada.');
     }
